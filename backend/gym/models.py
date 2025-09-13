@@ -95,6 +95,7 @@ class ProgramExercise(models.Model):
     )
     week_of_plan = models.PositiveSmallIntegerField(_("Week of Training Plan"))
     instructions = models.TextField(_("Instructions"), blank=True, null=True)
+    instructions = models.TextField(_("Instructions"), blank=True, null=True)
 
     environment = models.CharField(
         _("Training Environment"),

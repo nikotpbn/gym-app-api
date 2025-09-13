@@ -1,6 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
+# Node
+/frontend/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
