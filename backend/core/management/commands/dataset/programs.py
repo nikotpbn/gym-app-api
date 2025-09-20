@@ -8,7 +8,6 @@ workout_programs = [
         "price": Decimal("79.00"),
         "currency": "USD",
         "flat_discount": Decimal("30.00"),
-        "percentage_discount": None,
     },
     {
         "name": "Men Pro Workout",
@@ -17,7 +16,6 @@ workout_programs = [
         "price": Decimal("89.00"),
         "currency": "USD",
         "flat_discount": Decimal("30.00"),
-        "percentage_discount": None,
     },
     {
         "name": "Men Workout",
@@ -26,6 +24,5 @@ workout_programs = [
         "price": Decimal("79.00"),
         "currency": "USD",
         "flat_discount": Decimal("30.00"),
-        "percentage_discount": None,
     },
 ]
