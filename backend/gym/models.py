@@ -84,22 +84,22 @@ class ProgramExercise(models.Model):
     pk = models.CompositePrimaryKey(
         "day_of_week", "week_of_plan", "exercise_id", "program_id"
     )
-    exercise = models.ForeignKey("Exercise", on_delete=models.CASCADE)
     program = models.ForeignKey("Program", on_delete=models.CASCADE)
-    reps = models.PositiveSmallIntegerField(_("Exercise Repetitions"))
-    sets = models.PositiveSmallIntegerField(_("Exercise Sets"))
-    day_of_week = models.CharField(
-        _("Day of Week"),
-        max_length=3,
-        choices=DayOfWeekChoices,
-    )
-    week_of_plan = models.PositiveSmallIntegerField(_("Week of Training Plan"))
-    instructions = models.TextField(_("Instructions"), blank=True, null=True)
-    instructions = models.TextField(_("Instructions"), blank=True, null=True)
-
     environment = models.CharField(
         _("Training Environment"),
         max_length=2,
         choices=EnvironmentChoices,
     )
+    week_of_plan = models.PositiveSmallIntegerField(_("Week of Training Plan"))
+    day_of_week = models.CharField(
+        _("Day of Week"),
+        max_length=3,
+        choices=DayOfWeekChoices,
+    )
+    exercise = models.ForeignKey("Exercise", on_delete=models.CASCADE)
+    sets = models.PositiveSmallIntegerField(_("Exercise Sets"))
+    reps = models.PositiveSmallIntegerField(_("Exercise Repetitions"))
+
+    instructions = models.TextField(_("Instructions"), blank=True, null=True)
+    notes = models.TextField(_("notes"), blank=True, null=True)
     superset_number = models.PositiveSmallIntegerField(null=True, blank=True)
