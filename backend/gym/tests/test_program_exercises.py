@@ -391,146 +391,100 @@ def test_program_exercise_list_endpoint_admin(
 #         assert value == r.data["key"]
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_create_endpoint_unauthenticated(
-#     api_client, program, exercise
-# ):
-#     """
-#     Should be unauthorized for non authenticated users
-#     """
+@pytest.mark.django_db
+def test_program_exercise_create_endpoint_unauthenticated(
+    api_client, program, exercise
+):
+    """
+    Should be unauthorized for non authenticated users
+    """
 
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
 
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
+    data = {
+        "program": program_instance.pk,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance.pk,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
 
-#     endpoint = reverse("program-exercise-list")
-#     r = api_client.post(endpoint, data=data)
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    r = api_client.post(endpoint, data=data)
 
-#     assert r.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-# @pytest.mark.django_db
-# def test_program_exercise_create_endpoint_non_admin(
-#     api_client, program, exercise, user
-# ):
-#     """
-#     Should be forbidden for common users
-#     """
-
-#     api_client = login_user(api_client, user, "testpass123")
-
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
-
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
-
-#     endpoint = reverse("program-exercise-list")
-#     r = api_client.post(endpoint, data=data)
-
-#     assert r.status_code == status.HTTP_403_FORBIDDEN
+    assert r.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_create_endpoint_subscriber_non_admin(
-#     api_client, program, exercise, user
-# ):
-#     """
-#     Should be forbidden for common users
-#     """
+@pytest.mark.django_db
+def test_program_exercise_create_endpoint_non_admin(
+    api_client, program, exercise, user
+):
+    """
+    Should be forbidden for common users
+    """
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
 
-#     api_client = login_user(api_client, user, "testpass123")
+    data = {
+        "program": program_instance.pk,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance.pk,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
 
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
-#     Subscription.objects.create(
-#         user=user,
-#         program=program_instance,
-#         date_joined=datetime.now(),
-#         amount=Decimal("50.00"),
-#         currency="USD",
-#         transaction_id=str(uuid4()),
-#         status="Finished",
-#         transaction_type="Credit Card",
-#     )
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    api_client = login_user(api_client, user, "testpass123")
+    r = api_client.post(endpoint, data=data)
 
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
-
-#     endpoint = reverse("program-exercise-list")
-#     r = api_client.post(endpoint, data=data)
-
-#     assert r.status_code == status.HTTP_403_FORBIDDEN
+    assert r.status_code == status.HTTP_403_FORBIDDEN
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_create_endpoint_admin(
-#     api_client, program, exercise, admin_user
-# ):
-#     """
-#     Only admin users can create workouts
-#     """
-#     api_client = login_user(api_client, admin_user, "adminpass123")
+@pytest.mark.django_db
+def test_program_exercise_create_endpoint_admin(
+    api_client, program, exercise, admin_user
+):
+    """
+    Only admin users can create workouts for a program
+    """
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
 
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
+    data = {
+        "program": program_instance.pk,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance.pk,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
 
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    api_client = login_user(api_client, admin_user, "adminpass123")
+    r = api_client.post(endpoint, data=data)
 
-#     endpoint = reverse("program-exercise-list")
-#     r = api_client.post(endpoint, data=data)
-
-#     assert r.status_code == status.HTTP_200_OK
-#     for key, value in data.items():
-#         assert key in r.data
-#         assert value == r.data["key"]
+    assert r.status_code == status.HTTP_201_CREATED
+    for key, value in data.items():
+        assert key in r.data
+        assert value == r.data[key]
 
 
 # @pytest.mark.django_db

@@ -21,11 +21,27 @@ class ProgramModelViewSet(ModelViewSet):
 
     @action(detail=True, permission_classes=[IsAuthenticated, IsSubscriberOrAdmin])
     def list_exercises(self, request, pk=None):
-
         obj = self.get_object()
         qs = obj.workouts.all()
         serializer = ProgramExerciseSerializer(qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["post"], permission_classes=[IsAuthenticated, IsAdminUser]
+    )
+    def exercise(self, request, pk=None, *args, **kwargs):
+        serializer = ProgramExerciseSerializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            )
+        else:
+            print(serializer.errors)
+            return Response(
+                serializer.errors, status=status.HTTP_201_CREATED, headers=headers
+            )
 
 
 class ExerciseListCreateAPIView(
