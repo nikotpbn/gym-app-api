@@ -1,40 +1,31 @@
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins, status
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from gym.models import Program, Exercise
-from gym.serializers import ProgramSerializer, ExerciseSerializer
+from gym.permissions import IsSubscriberOrAdmin
+
+from gym.models import Program, Exercise, Subscription
+from gym.serializers import (
+    ProgramSerializer,
+    ExerciseSerializer,
+    ProgramExerciseSerializer,
+)
 
 
-class ProgramListCreateAPIView(
-    mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet
-):
+class ProgramModelViewSet(ModelViewSet):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
-    def get_permissions(self):
-        if self.action == "create":
-            self.permission_classes = [IsAdminUser, IsAuthenticated]
-        else:
-            self.permission_classes = []
-        return super().get_permissions()
+    @action(detail=True, permission_classes=[IsAuthenticated, IsSubscriberOrAdmin])
+    def list_exercises(self, request, pk=None):
 
-
-class ProgramDetailAPIView(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    GenericViewSet,
-):
-    queryset = Program.objects.all()
-    serializer_class = ProgramSerializer
-
-    def get_permissions(self):
-        if self.action in ["update", "partial_update", "destroy"]:
-            self.permission_classes = [IsAuthenticated, IsAdminUser]
-        else:
-            self.permission_classes = []
-        return super().get_permissions()
+        obj = self.get_object()
+        qs = obj.workouts.all()
+        serializer = ProgramExerciseSerializer(qs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ExerciseListCreateAPIView(

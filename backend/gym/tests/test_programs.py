@@ -5,23 +5,23 @@ from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_program_list_endpoint(api_client, program):
+def test_program_list_endpoint_unauthenticated(api_client, program):
     """
-    Test listing all programs.
+    Should be unauthorized for unauthenticated requests
     """
     [Program.objects.create(**obj) for obj in program]
 
     endpoint = reverse("program-list")
     r = api_client.get(endpoint)
 
-    assert r.status_code == 200
-    assert len(r.data) == len(program)
+    assert r.status_code == 401
 
 
 @pytest.mark.django_db
-def test_program_retrieve_endpoint(api_client, program):
+def test_program_retrieve_endpoint_unauthenticated(api_client, program):
     """
     Test retrieving individual program details.
+    Should be unauthorized for unauthenticated requests
     """
     created_programs = [Program.objects.create(**obj) for obj in program]
 
@@ -29,8 +29,7 @@ def test_program_retrieve_endpoint(api_client, program):
         endpoint = reverse("program-detail", kwargs={"pk": prog.pk})
         r = api_client.get(endpoint)
 
-        assert r.status_code == 200
-        assert r.data["name"] == prog.name
+        assert r.status_code == 401
 
 
 @pytest.mark.django_db
@@ -60,6 +59,7 @@ def test_program_create_endpoint_non_admin(api_client, user, program):
     assert "access" in response.data
 
     api_client.credentials(HTTP_AUTHORIZATION="Bearer " + response.data["access"])
+
     endpoint = reverse("program-list")
 
     for obj in program:
@@ -73,7 +73,6 @@ def test_program_create_endpoint_admin(api_client, admin_user, program):
     Program creation should be allowed for admin users.
     """
     token_url = reverse("token_obtain_pair")
-
     response = api_client.post(
         token_url, {"email": admin_user.email, "password": "adminpass123"}
     )

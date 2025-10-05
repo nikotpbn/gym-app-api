@@ -1,28 +1,17 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from gym.views import (
-    ProgramListCreateAPIView,
-    ProgramDetailAPIView,
+    ProgramModelViewSet,
     ExerciseListCreateAPIView,
     ExerciseDetailAPIView,
 )
 
+router = DefaultRouter()
+
+router.register(r"program", ProgramModelViewSet)
+
 urlpatterns = [
-    path("programs/",
-        ProgramListCreateAPIView.as_view({"get": "list", "post": "create"}),
-        name="program-list",
-    ),
-    path("programs/<int:pk>",
-        ProgramDetailAPIView.as_view(
-            {
-                "get": "retrieve",
-                "patch": "partial_update",
-                "put": "update",
-                "delete": "destroy",
-            }
-        ),
-        name="program-detail",
-    ),
     path(
         "exercises/",
         ExerciseListCreateAPIView.as_view({"get": "list", "post": "create"}),
@@ -41,3 +30,5 @@ urlpatterns = [
         name="exercise-detail",
     ),
 ]
+
+urlpatterns += router.urls

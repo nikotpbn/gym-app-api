@@ -84,7 +84,9 @@ class ProgramExercise(models.Model):
     pk = models.CompositePrimaryKey(
         "day_of_week", "week_of_plan", "exercise_id", "program_id"
     )
-    program = models.ForeignKey("Program", on_delete=models.CASCADE)
+    program = models.ForeignKey(
+        "Program", on_delete=models.CASCADE, related_name="workouts"
+    )
     environment = models.CharField(
         _("Training Environment"),
         max_length=2,
