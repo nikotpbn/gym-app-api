@@ -44,14 +44,14 @@ class ProgramModelViewSet(ModelViewSet):
             )
 
     @exercise.mapping.delete
-    def delete_exercise(self, request, pk=None, *args, **kwargs):
+    def delete_exercise(self, request, pk=None):
         wop = request.query_params.get("week_of_plan")
         dow = request.query_params.get("day_of_week")
         exercise = request.query_params.get("exercise")
         program = self.get_object()
 
         try:
-            instance = program.workouts.filter(
+            instance = program.workouts.get(
                 week_of_plan=wop,
                 day_of_week=dow,
                 exercise__id=exercise,
@@ -62,6 +62,43 @@ class ProgramModelViewSet(ModelViewSet):
 
         except ProgramExercise.DoesNotExist as e:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @exercise.mapping.put
+    def update_exercise(self, request, pk=None, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        wop = request.query_params.get("week_of_plan")
+        dow = request.query_params.get("day_of_week")
+        exercise = request.query_params.get("exercise")
+        program = self.get_object()
+
+        try:
+            instance = program.workouts.get(
+                week_of_plan=wop,
+                day_of_week=dow,
+                exercise__id=exercise,
+                program=program,
+            )
+
+            serializer = ProgramExerciseSerializer(
+                instance, data=request.data, partial=partial
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                print(serializer.errors)
+                print(request.data["program"])
+                print(request.data["exercise"])
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except ProgramExercise.DoesNotExist as e:
+            print(e)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @exercise.mapping.patch
+    def partial_update_exercise(self, request, pk=None, *args, **kwargs):
+        kwargs["partial"] = True
+        return self.update_exercise(request, *args, **kwargs)
 
 
 class ExerciseListCreateAPIView(
