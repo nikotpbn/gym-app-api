@@ -690,93 +690,96 @@ def test_program_exercise_create_endpoint_admin(
 #     assert r.data["instructions"] == data["instructions"]
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_delete_endpoint_unauthenticated(
-#     api_client, program, exercise
-# ):
-#     """
-#     Unauthorized for unauthenticated users
-#     """
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
-#     program_exercise_instance = ProgramExercise.objects.create(**data)
-#     endpoint = reverse(
-#         "program-exercise-detail", kwargs={"pk": program_exercise_instance.pk}
-#     )
-#     r = api_client.delete(endpoint)
-#     assert r.status_code == status.HTTP_401_UNAUTHORIZED
+@pytest.mark.django_db
+def test_program_exercise_delete_endpoint_unauthenticated(
+    api_client, program, exercise
+):
+    """
+    Unauthorized for unauthenticated users
+    """
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
+    data = {
+        "program": program_instance,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
+    ProgramExercise.objects.create(**data)
+
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    r = api_client.delete(
+        endpoint + f"?week_of_plan=1&day_of_week=MON&exercise={exercise_instance.pk}"
+    )
+    assert r.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_delete_endpoint_non_admin(
-#     api_client, program, exercise, user
-# ):
-#     """
-#     Forbidden for non admin
-#     """
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
-#     program_exercise_instance = ProgramExercise.objects.create(**data)
-#     endpoint = reverse(
-#         "program-exercise-detail", kwargs={"pk": program_exercise_instance.pk}
-#     )
-#     api_client = login_user(api_client, user, "testpass123")
-#     r = api_client.delete(endpoint)
-#     assert r.status_code == status.HTTP_403_FORBIDDEN
+@pytest.mark.django_db
+def test_program_exercise_delete_endpoint_non_admin(
+    api_client, program, exercise, user
+):
+    """
+    Forbidden for non admin
+    """
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
+    data = {
+        "program": program_instance,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
+    ProgramExercise.objects.create(**data)
+
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    api_client = login_user(api_client, user, "testpass123")
+    r = api_client.delete(
+        endpoint + f"?week_of_plan=1&day_of_week=MON&exercise={exercise_instance.pk}"
+    )
+    assert r.status_code == status.HTTP_403_FORBIDDEN
 
 
-# @pytest.mark.django_db
-# def test_program_exercise_delete_endpoint_admin(
-#     api_client, program, exercise, admin_user
-# ):
-#     """
-#     Admin users are able to delete
-#     """
-#     program_instance = Program.objects.create(**program[1])
-#     exercise_instance = Exercise.objects.create(
-#         area_of_focus=exercise[0]["area_of_focus"], name=exercise[0][0]["name"]
-#     )
-#     data = {
-#         "program": program_instance,
-#         "environment": "GY",
-#         "week_of_plan": 1,
-#         "day_of_week": 1,
-#         "exercise": exercise_instance,
-#         "sets": 3,
-#         "reps": 8,
-#         "instructions": "some instructions",
-#         "notes": "some notes",
-#     }
-#     program_exercise_instance = ProgramExercise.objects.create(**data)
-#     endpoint = reverse(
-#         "program-exercise-detail", kwargs={"pk": program_exercise_instance.pk}
-#     )
-#     api_client = login_user(api_client, admin_user, "testpass123")
-#     r = api_client.delete(endpoint)
-#     assert r.status_code == status.HTTP_204_NO_CONTENT
+@pytest.mark.django_db
+def test_program_exercise_delete_endpoint_admin(
+    api_client, program, exercise, admin_user
+):
+    """
+    Admin users are able to delete
+    """
+    program_instance = Program.objects.create(**program[1])
+    exercise_instance = Exercise.objects.create(
+        area_of_focus=exercise[0]["area_of_focus"], name=exercise[0]["exercises"][0]
+    )
+    data = {
+        "program": program_instance,
+        "environment": "GY",
+        "week_of_plan": 1,
+        "day_of_week": "MON",
+        "exercise": exercise_instance,
+        "sets": 3,
+        "reps": 8,
+        "instructions": "some instructions",
+        "notes": "some notes",
+    }
+    ProgramExercise.objects.create(**data)
+
+    endpoint = reverse("program-exercise", kwargs={"pk": program_instance.pk})
+    api_client = login_user(api_client, admin_user, "adminpass123")
+    r = api_client.delete(
+        endpoint + f"?week_of_plan=1&day_of_week=MON&exercise={exercise_instance.pk}"
+    )
+    assert r.status_code == status.HTTP_204_NO_CONTENT

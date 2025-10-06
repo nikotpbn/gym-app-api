@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from gym.permissions import IsSubscriberOrAdmin
 
-from gym.models import Program, Exercise, Subscription
+from gym.models import Program, Exercise, ProgramExercise
 from gym.serializers import (
     ProgramSerializer,
     ExerciseSerializer,
@@ -29,7 +29,7 @@ class ProgramModelViewSet(ModelViewSet):
     @action(
         detail=True, methods=["post"], permission_classes=[IsAuthenticated, IsAdminUser]
     )
-    def exercise(self, request, pk=None, *args, **kwargs):
+    def exercise(self, request, pk=None):
         serializer = ProgramExerciseSerializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
@@ -42,6 +42,26 @@ class ProgramModelViewSet(ModelViewSet):
             return Response(
                 serializer.errors, status=status.HTTP_201_CREATED, headers=headers
             )
+
+    @exercise.mapping.delete
+    def delete_exercise(self, request, pk=None, *args, **kwargs):
+        wop = request.query_params.get("week_of_plan")
+        dow = request.query_params.get("day_of_week")
+        exercise = request.query_params.get("exercise")
+        program = self.get_object()
+
+        try:
+            instance = program.workouts.filter(
+                week_of_plan=wop,
+                day_of_week=dow,
+                exercise__id=exercise,
+                program=program,
+            )
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except ProgramExercise.DoesNotExist as e:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class ExerciseListCreateAPIView(
