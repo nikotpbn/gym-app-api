@@ -15,10 +15,10 @@ export function Input(props: InputProps) {
   }
 
   return (
-    <label className="text-black font-100">
+    <label className="text-black text-xs w-[100%] font-100 opacity-60 antialiased">
       {props.label}
       <input
-        className="w-full text-black border-1 border-gray-300 rounded-md"
+        className="w-full text-black text-sm border-1 border-gray-300 rounded-md mb-[4px] opacity-[.6] px-[10px] h-[42px] outline-hidden antialiased"
         type={props.type}
         placeholder={props.placeholder}
         onChange={emailHandler}
