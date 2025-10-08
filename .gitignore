@@ -3,6 +3,7 @@
 
 # Node
 /frontend/node_modules/
+/frontend/.react-router
 
 # React Router
 /.react-router/

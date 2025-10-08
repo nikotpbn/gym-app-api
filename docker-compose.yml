@@ -1,8 +1,20 @@
 services:
+  backend:
+    build:
+      context: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings
+
   frontend:
     build:
       context: ./frontend
+    command: npm run dev -- --host
     volumes:
       - ./frontend:/frontend
     ports:
-      - "3000:3000"
+      - "5173:5173"
