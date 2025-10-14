@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import type { Route } from "./+types/login";
 
-import { Input } from "../components/input";
-import { Button } from "../components/button";
-import { Link } from "../components/link";
+import { Input } from "~/views/components/input";
+import { Button } from "~/views/components/button";
+import { Link } from "~/views/components/link";
 
-export function Login() {
+import { AuthContext } from "~/context";
+import { useNavigate } from "react-router";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "Login" }];
+}
+
+export function loader() {
+
+}
+
+export default function Login() {
+  let navigate = useNavigate();
+  const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,21 +31,18 @@ export function Login() {
   }
 
   async function logIn() {
-    let body = new FormData();
-    body.append("email", email);
-    body.append("password", password);
-
-    console.log(password);
-
     try {
       const response = await fetch("http://localhost:8000/api/v1/token/", {
         method: "POST",
-        body: body,
+        body: JSON.stringify({ email, password }),
         headers: { "Content-Type": "application/json" },
       });
-      const data = await response.json();
-      console.log(data);
-      console.log(response.status);
+
+      if (response.status == 200) {
+        const data = await response.json();
+        auth.login(data.access, data.refresh);
+        navigate("/gympro");
+      }
     } catch (error) {}
   }
 

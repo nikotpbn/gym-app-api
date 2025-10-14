@@ -7,8 +7,12 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import { useCallback, useState, useEffect } from "react";
+
 import type { Route } from "./+types/root";
 import "./app.css";
+
+import { AuthContext } from "./context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +46,46 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+
+  const login = useCallback((access: string, refresh: string) => {
+    setAccessToken(access);
+    localStorage.setItem("access", access);
+
+    setRefreshToken(refresh);
+    localStorage.setItem("refresh", refresh);
+  }, []);
+
+  const logout = () => {
+    setAccessToken("");
+    localStorage.removeItem("access");
+
+    setRefreshToken("");
+    localStorage.removeItem("refresh");
+  };
+
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+    const refresh = localStorage.getItem("access");
+    if (access && refresh) {
+      login(access, refresh);
+    }
+  }, [login]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!accessToken,
+        access: accessToken,
+        refresh: refreshToken,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <Outlet />
+    </AuthContext.Provider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
