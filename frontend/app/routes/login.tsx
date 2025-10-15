@@ -12,10 +12,6 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
 }
 
-export function loader() {
-
-}
-
 export default function Login() {
   let navigate = useNavigate();
   const auth = useContext(AuthContext);

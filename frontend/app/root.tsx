@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import { useCallback, useState, useEffect } from "react";
+import { useAuth } from "hooks/auth-hook";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -46,32 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const [accessToken, setAccessToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
-
-  const login = useCallback((access: string, refresh: string) => {
-    setAccessToken(access);
-    localStorage.setItem("access", access);
-
-    setRefreshToken(refresh);
-    localStorage.setItem("refresh", refresh);
-  }, []);
-
-  const logout = () => {
-    setAccessToken("");
-    localStorage.removeItem("access");
-
-    setRefreshToken("");
-    localStorage.removeItem("refresh");
-  };
-
-  useEffect(() => {
-    const access = localStorage.getItem("access");
-    const refresh = localStorage.getItem("access");
-    if (access && refresh) {
-      login(access, refresh);
-    }
-  }, [login]);
+  const { accessToken, refreshToken, login, logout } = useAuth();
 
   return (
     <AuthContext.Provider
