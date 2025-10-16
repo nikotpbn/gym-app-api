@@ -4,9 +4,11 @@ export const AuthContext = createContext<{
   isLoggedIn: boolean;
   access: string | null;
   refresh: string | null;
+  subscriptions: string[] | null;
   login: (
     access: string,
     refresh: string,
+    subscriptions: string[],
     access_expiration?: Date,
     refresh_expiration?: Date
   ) => void;
@@ -15,6 +17,7 @@ export const AuthContext = createContext<{
   isLoggedIn: false,
   access: null,
   refresh: null,
+  subscriptions: null,
   login: () => {},
   logout: () => {},
 });

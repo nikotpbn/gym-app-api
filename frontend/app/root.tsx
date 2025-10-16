@@ -46,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { accessToken, refreshToken, login, logout } = useAuth();
+  const { accessToken, refreshToken, subscriptions, login, logout } = useAuth();
 
   return (
     <AuthContext.Provider
@@ -54,6 +54,7 @@ export default function App() {
         isLoggedIn: !!accessToken,
         access: accessToken,
         refresh: refreshToken,
+        subscriptions: subscriptions,
         login: login,
         logout: logout,
       }}

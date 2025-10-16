@@ -36,7 +36,8 @@ export default function Login() {
 
       if (response.status == 200) {
         const data = await response.json();
-        auth.login(data.access, data.refresh);
+        console.log(data);
+        auth.login(data.access, data.refresh, data.subscriptions);
         navigate("/gympro");
       }
     } catch (error) {}
