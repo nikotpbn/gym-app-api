@@ -3,10 +3,10 @@ men_pro_workout = {
     "GY": {
         "weeks": [
             {
-                "week": 1,
+                "week_of_plan": 1,
                 "days": [
                     {
-                        "day": 1,
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -46,7 +46,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": 2,
+                        "day_of_week": "TUE",
                         "exercises": [
                             {"name": "Barbell Overhead Press", "sets": 4, "reps": 8},
                             {"name": "Classic Bench Press", "sets": 3, "reps": 8},
@@ -72,7 +72,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": 3,
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -114,7 +114,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": 4,
+                        "day_of_week": "FRI",
                         "exercises": [
                             {"name": "Dumbell Hammer Curl", "sets": 4, "reps": 8},
                             {
@@ -154,14 +154,14 @@ men_pro_workout = {
                     },
                 ],
             },
-            {"week": 2, "days": []},
-            {"week": 3, "days": []},
-            {"week": 4, "days": []},
-            {"week": 5, "days": []},
-            {"week": 6, "days": []},
-            {"week": 7, "days": []},
-            {"week": 8, "days": []},
+            {"week_of_plan": 2, "days": []},
+            {"week_of_plan": 3, "days": []},
+            {"week_of_plan": 4, "days": []},
+            {"week_of_plan": 5, "days": []},
+            {"week_of_plan": 6, "days": []},
+            {"week_of_plan": 7, "days": []},
+            {"week_of_plan": 8, "days": []},
         ],
     },
-    "home": [],
+    "HO": [],
 }

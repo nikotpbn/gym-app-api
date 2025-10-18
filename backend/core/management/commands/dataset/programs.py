@@ -18,7 +18,7 @@ workout_programs = [
         "flat_discount": Decimal("30.00"),
     },
     {
-        "name": "Men Workout",
+        "name": "Women Workout",
         "training_type": "PBU",
         "length_in_weeks": 8,
         "price": Decimal("79.00"),
