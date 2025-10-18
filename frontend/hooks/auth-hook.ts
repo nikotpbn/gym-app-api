@@ -6,12 +6,10 @@ export const useAuth = () => {
   let navigate = useNavigate();
   // Access Token is currently set to 5 minutes and
   // refresh Token for 1 day for testing purposes
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [accessTokenExpires, setAccessTokenExpires] = useState<Date | null>(
-    null
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
-  const [subscriptions, setSubscriptions] = useState<string[] | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>("");
+  const [accessTokenExpires, setAccessTokenExpires] = useState<Date | null>();
+  const [refreshToken, setRefreshToken] = useState<string | null>("");
+  const [subscriptions, setSubscriptions] = useState<string[] | null>([]);
 
   const login = useCallback(
     (
@@ -21,16 +19,17 @@ export const useAuth = () => {
       access_expires?: Date,
       refresh_expires?: Date
     ) => {
+      // 1000 miliseconds for 1second times 60 for a minute time 5 for 5 minutes
+      const access_expiration =
+        access_expires || new Date(new Date().getTime() + 1000 * 60 * 60);
+      const refresh_expiration =
+        refresh_expires || new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+
       setAccessToken(access);
       setRefreshToken(refresh);
       setSubscriptions(subscriptions);
-
-      // 1000 miliseconds for 1second times 60 for a minute time 5 for 5 minutes
-      const access_expiration =
-        access_expires || new Date(new Date().getTime() + 1000 * 60);
       setAccessTokenExpires(access_expiration);
-      const refresh_expiration =
-        refresh_expires || new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+
       localStorage.setItem(
         "userData",
         JSON.stringify({
@@ -38,6 +37,7 @@ export const useAuth = () => {
           access_expiration: access_expiration.toISOString(),
           refresh: refresh,
           refresh_expiration: refresh_expiration.toISOString(),
+          subscriptions: subscriptions,
         })
       );
     },
@@ -67,11 +67,7 @@ export const useAuth = () => {
     const storedData = rawData !== null ? JSON.parse(rawData) : null;
 
     if (storedData) {
-      if (
-        storedData.access &&
-        storedData.refresh &&
-        new Date(storedData.access_expiration) > new Date()
-      ) {
+      if (storedData.access && storedData.refresh) {
         login(
           storedData.access,
           storedData.refresh,

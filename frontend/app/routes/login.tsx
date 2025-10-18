@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
 import type { Route } from "./+types/login";
 
-import { Input } from "~/views/components/input";
-import { Button } from "~/views/components/button";
-import { Link } from "~/views/components/link";
+import { Input } from "~/views/components/login/input";
+import { Button } from "~/views/components/login/button";
+import { Link } from "~/views/components/login/link";
 
 import { AuthContext } from "~/context";
-import { useNavigate } from "react-router";
+
+import { useNavigate, Navigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Login" }];
@@ -36,11 +37,14 @@ export default function Login() {
 
       if (response.status == 200) {
         const data = await response.json();
-        console.log(data);
         auth.login(data.access, data.refresh, data.subscriptions);
-        navigate("/gympro");
+        navigate("/subscriptions");
       }
     } catch (error) {}
+  }
+
+  if (auth.isLoggedIn) {
+    return <Navigate replace to="/subscriptions"></Navigate>;
   }
 
   return (

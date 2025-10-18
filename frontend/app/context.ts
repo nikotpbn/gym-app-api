@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 export const AuthContext = createContext<{
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | null;
   access: string | null;
   refresh: string | null;
   subscriptions: string[] | null;

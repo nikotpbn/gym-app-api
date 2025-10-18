@@ -81,9 +81,6 @@ class ProgramExercise(models.Model):
         FRIDAY = "FRI", _("Friday")
         SATURDAY = "SAT", _("Saturday")
 
-    pk = models.CompositePrimaryKey(
-        "day_of_week", "week_of_plan", "exercise_id", "program_id"
-    )
     program = models.ForeignKey(
         "Program", on_delete=models.CASCADE, related_name="workouts"
     )
@@ -105,3 +102,11 @@ class ProgramExercise(models.Model):
     instructions = models.TextField(_("Instructions"), blank=True, null=True)
     notes = models.TextField(_("notes"), blank=True, null=True)
     superset_number = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["day_of_week", "week_of_plan", "exercise", "program"],
+                name="unique_program_exercise_schedule",
+            )
+        ]

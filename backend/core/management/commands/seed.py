@@ -51,4 +51,4 @@ class Command(BaseCommand):
                             )
                         )
 
-        self.stdout.write(self.style.SUCCESS("Finished seeding tags."))
+        self.stdout.write(self.style.SUCCESS("Finished seeding exercises."))

@@ -7,12 +7,11 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import { useAuth } from "hooks/auth-hook";
-
 import type { Route } from "./+types/root";
 import "./app.css";
 
 import { AuthContext } from "./context";
+import { useAuth } from "hooks/auth-hook";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -46,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { accessToken, refreshToken, subscriptions, login, logout } = useAuth();
+  let { accessToken, refreshToken, subscriptions, login, logout } = useAuth();
 
   return (
     <AuthContext.Provider

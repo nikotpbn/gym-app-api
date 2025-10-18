@@ -19,6 +19,13 @@ class ProgramModelViewSet(ModelViewSet):
     serializer_class = ProgramSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 
+    def get_queryset(self):
+        if self.request.method == "LIST":
+            user = self.request.user
+            if not user.is_staff:
+                return user.subscriptions.filter(status="active")
+        return super().get_queryset()
+
     @action(detail=True, permission_classes=[IsAuthenticated, IsSubscriberOrAdmin])
     def list_exercises(self, request, pk=None):
         obj = self.get_object()
@@ -30,18 +37,15 @@ class ProgramModelViewSet(ModelViewSet):
         detail=True, methods=["post"], permission_classes=[IsAuthenticated, IsAdminUser]
     )
     def exercise(self, request, pk=None):
+        request.data.update({"program": pk})
         serializer = ProgramExerciseSerializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(
-                serializer.data, status=status.HTTP_201_CREATED, headers=headers
-            )
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
-            return Response(
-                serializer.errors, status=status.HTTP_201_CREATED, headers=headers
-            )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @exercise.mapping.delete
     def delete_exercise(self, request, pk=None):
