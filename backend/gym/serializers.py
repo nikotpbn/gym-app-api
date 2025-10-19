@@ -12,11 +12,21 @@ class ProgramSerializer(ModelSerializer):
 class ExerciseSerializer(ModelSerializer):
     class Meta:
         model = Exercise
-        fields = "__all__"
+        fields = ["name", "image"]
 
 
 class ProgramExerciseSerializer(ModelSerializer):
 
+    exercise = ExerciseSerializer()
+
     class Meta:
         model = ProgramExercise
-        fields = "__all__"
+        fields = [
+            "id",
+            "exercise",
+            "sets",
+            "reps",
+            "instructions",
+            "notes",
+            "superset_number",
+        ]

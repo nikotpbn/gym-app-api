@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from rest_framework import mixins, status
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -26,12 +28,28 @@ class ProgramModelViewSet(ModelViewSet):
                 return user.subscriptions.filter(status="active")
         return super().get_queryset()
 
-    @action(detail=True, permission_classes=[IsAuthenticated, IsSubscriberOrAdmin])
-    def list_exercises(self, request, pk=None):
+    @action(
+        detail=True,
+        permission_classes=[IsAuthenticated, IsSubscriberOrAdmin],
+        url_path="exercise/list/(?P<week_of_plan>\d)",
+    )
+    def list_weekly_exercises(self, request, pk=None, *args, **kwargs):
+        days_list = [item[0] for item in ProgramExercise.DayOfWeekChoices.choices]
         obj = self.get_object()
-        qs = obj.workouts.all()
-        serializer = ProgramExerciseSerializer(qs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        week_of_plan = kwargs["week_of_plan"]
+        qs = obj.workouts.filter(week_of_plan=week_of_plan)
+
+        response = []
+
+        for day_of_week in days_list:
+            filter = qs.filter(day_of_week=day_of_week)
+            serializer = ProgramExerciseSerializer(filter, many=True)
+            if serializer.data:
+                response.append(
+                    {"day_of_week": day_of_week, "exercises": serializer.data}
+                )
+
+        return Response(response, status=status.HTTP_200_OK)
 
     @action(
         detail=True, methods=["post"], permission_classes=[IsAuthenticated, IsAdminUser]
@@ -91,8 +109,6 @@ class ProgramModelViewSet(ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 print(serializer.errors)
-                print(request.data["program"])
-                print(request.data["exercise"])
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except ProgramExercise.DoesNotExist as e:
