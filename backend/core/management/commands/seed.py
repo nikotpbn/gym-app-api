@@ -102,7 +102,7 @@ class Command(BaseCommand):
                         {
                             "instructions": (
                                 exercise["instructions"]
-                                if "instruction" in exercise
+                                if "instructions" in exercise
                                 else None
                             )
                         }

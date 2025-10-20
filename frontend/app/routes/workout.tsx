@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "~/context";
 import { useParams } from "react-router";
 
+import { WorkoutContainer } from "~/views/components/workouts/workoutContainer";
+
 export function meta({}: Route.MetaArgs) {
   return [{ title: "My Subscriptions" }];
 }
@@ -11,13 +13,13 @@ export function meta({}: Route.MetaArgs) {
 export default function Workout() {
   const auth = useContext(AuthContext);
   let params = useParams();
-  const [programExercises, setProgramExercises] = useState([]);
+  const [weeklyWorkout, setWeeklyWorkout] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/v1/program/${params.workoutId}/list_exercises/`,
+          `http://localhost:8000/api/v1/program/${params.workoutId}/exercise/list/1/`,
           {
             headers: {
               Authorization: `Bearer ${auth.access}`,
@@ -25,8 +27,8 @@ export default function Workout() {
           }
         );
         const data = await response.json();
+        setWeeklyWorkout(data);
         console.log(data);
-        setProgramExercises(data);
       } catch (error) {}
     };
     loadData();
@@ -34,14 +36,16 @@ export default function Workout() {
 
   return (
     <>
-      {programExercises.length > 0 && (
-        <ul>
-          {programExercises.map((workout: any) => (
-            <li key={workout.id}>
-              <h2>{workout.name}</h2>
-            </li>
+      {weeklyWorkout.length > 0 && (
+        <div className="flex flex-row flex-wrap w-full justify-betweem p-[25px]">
+          {weeklyWorkout.map((dailyWorkout: any) => (
+            <WorkoutContainer
+              key={dailyWorkout.day_of_week}
+              day_of_week={dailyWorkout.day_of_week}
+              workouts={dailyWorkout.exercises}
+            ></WorkoutContainer>
           ))}
-        </ul>
+        </div>
       )}
     </>
   );
