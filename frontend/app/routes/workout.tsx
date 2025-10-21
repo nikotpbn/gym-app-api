@@ -6,12 +6,14 @@ import { useParams } from "react-router";
 
 import { WorkoutContainer } from "~/views/components/workouts/workoutContainer";
 import { WeekSelector } from "~/views/components/workouts/weekSelector";
+import { WeekSelectorMinimal } from "~/views/components/workouts/weekSelectorMinimal";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "My Subscriptions" }];
 }
 
 export default function Workout() {
+  // maybe program length in weeks can be used to construct week selector dynamically
   const auth = useContext(AuthContext);
   let params = useParams();
   const [weeklyWorkout, setWeeklyWorkout] = useState([]);
@@ -43,6 +45,7 @@ export default function Workout() {
 
   return (
     <>
+      <WeekSelectorMinimal weekHandler={weekHandler} />
       <WeekSelector weekHandler={weekHandler} />
       {weeklyWorkout.length > 0 && (
         <div className="flex flex-row flex-wrap w-full justify-betweem p-[25px]">

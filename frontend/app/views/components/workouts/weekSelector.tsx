@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import { WeekSelectorButton } from "~/views/components/workouts/selectorButton";
 

@@ -21,9 +21,9 @@ export const useAuth = () => {
     ) => {
       // 1000 miliseconds for 1second times 60 for a minute time 5 for 5 minutes
       const access_expiration =
-        access_expires || new Date(new Date().getTime() + 1000 * 60 * 60);
+        access_expires || new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
       const refresh_expiration =
-        refresh_expires || new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+        refresh_expires || new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 2);
 
       setAccessToken(access);
       setRefreshToken(refresh);
