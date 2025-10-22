@@ -58,7 +58,9 @@ export default function App() {
         logout: logout,
       }}
     >
-      <Outlet />
+      <main className="bg-[url(/public/background.jpg)] min-h-[100vh] bg-repeat">
+        <Outlet />
+      </main>
     </AuthContext.Provider>
   );
 }
