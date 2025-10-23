@@ -159,3 +159,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
+STRIPE_API_KEY = None
+with open("/run/secrets/stripe_api_key") as f:
+    STRIPE_API_KEY = f.read().strip()
