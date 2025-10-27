@@ -7,28 +7,34 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 stripe.api_key = settings.STRIPE_API_KEY
-stripe.api_version = "2025-03-31.basil"
+
+from gym.models import Program
 
 
 @api_view(["POST"])
 def checkout(request):
+    """
+    Retrieve amount based on selected program
+    would be the best practice.
+
+    Its better to decide how much to charge on the server side,
+    a trusted environment, as opposed to the client.
+    """
+    program_id = request.data.get("programId", None)
+    currency = request.data.get("currency", None)
     try:
-        session = stripe.checkout.Session.create(
-            line_items=[
-                {
-                    "price_data": {
-                        "currency": "usd",
-                        "product_data": {"name": "T-shirt"},
-                        "unit_amount": 2000,
-                    },
-                    "quantity": 1,
-                },
-            ],
-            mode="payment",
-            ui_mode="custom",
-            # The URL of your payment completion page
-            return_url="https://example.com/return?session_id={CHECKOUT_SESSION_ID}",
+        program = Program.objects.get(pk=program_id)
+        amount = program.price
+        if program.flat_discount:
+            amount -= program.flat_discount
+        if program.percentage_discount:
+            discount = amount * program.percentage_discount
+            amount -= discount
+
+        intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency=currency,
         )
-        return Response({"checkoutSessionClientSecret": session["client_secret"]})
+        return Response({"client_secret": intent.client_secret})
     except Exception as e:
         return Response(e, status=status.HTTP_400_BAD_REQUEST)

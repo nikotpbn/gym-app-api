@@ -1,11 +1,60 @@
 import { Socials } from "~/views/footer/socials";
 import CollapseContainer from "~/views/components/landing/collapseContainer";
 
+import { SubscriptionCard } from "~/views/components/landing/subscriptionCard";
+
 import NinjaIcon from "~/views/footer/ninjaIcon";
 
 export default function Landing() {
   return (
     <>
+      <div className="flex flex-row flex-wrap justify-between mt-5 pl-[40px] pr-[40px]">
+        <SubscriptionCard
+          discount={null}
+          price={19.99}
+          billing="Billed at $19.00 / 1 month"
+          perks={[
+            "Unlimited training program",
+            "Meal plans",
+            "Fitness community access",
+            "Progress tracking",
+            "Video guidance",
+            "Supplement and recovery guides",
+            "Abs and core routines",
+            "Supplement and vitamin tips",
+          ]}
+        />
+        <SubscriptionCard
+          discount={34}
+          price={19.99}
+          billing="Billed at $19.00 / 1 month"
+          perks={[
+            "Unlimited training program",
+            "Meal plans",
+            "Fitness community access",
+            "Progress tracking",
+            "Video guidance",
+            "Supplement and recovery guides",
+            "Abs and core routines",
+            "Supplement and vitamin tips",
+          ]}
+        />
+        <SubscriptionCard
+          discount={46}
+          price={19.99}
+          billing="Billed at $19.00 / 1 month"
+          perks={[
+            "Unlimited training program",
+            "Meal plans",
+            "Fitness community access",
+            "Progress tracking",
+            "Video guidance",
+            "Supplement and recovery guides",
+            "Abs and core routines",
+            "Supplement and vitamin tips",
+          ]}
+        />
+      </div>
       <div className="text-center">
         <h2>FAQ's</h2>
       </div>

@@ -93,7 +93,11 @@ class Command(BaseCommand):
                 data.update({"day_of_week": day["day_of_week"]})
 
                 for exercise in day["exercises"]:
-                    exercise_instance = Exercise.objects.get(name=exercise["name"])
+                    try:
+                        exercise_instance = Exercise.objects.get(name=exercise["name"])
+                    except Exercise.DoesNotExist as e:
+                        print({"error": e, "exercise": exercise["name"]})
+
                     data.update({"exercise": exercise_instance})
                     data.update({"sets": exercise["sets"]})
                     data.update({"reps": exercise["reps"]})

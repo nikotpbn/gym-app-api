@@ -15,6 +15,7 @@ gym_exercises = [
             "Dumbell Pile Squat",
             "Leg Extension",
             "Leg Curl",
+            "Glute Bridge",
         ],
     },
     {
@@ -91,15 +92,12 @@ gym_exercises = [
             "Hyperextension",
             "Pullover on Bench",
             "Reverse Grip Barbell Row",
+            "Barbell Row",
             "Cable Row",
             "Rope Pullover",
             "Dumbell Supported Row",
-            {
-                "name": "",
-                "sets": 4,
-                "reps": 10,
-            },
             "Dumbell Row",
+            "Barbell Bent Over Row",
         ],
     },
     {
@@ -125,6 +123,7 @@ gym_exercises = [
             "Seated Dumbell French Press",
             "Seated Dumbell Single Arm French Press",
             "Incline Dumbell French Press",
+            "Dumbell French Press",
             "Triceps Dips",
             "Triceps Rope Pulldown",
             "Triceps Pushdown",

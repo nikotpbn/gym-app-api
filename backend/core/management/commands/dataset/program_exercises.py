@@ -114,7 +114,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {"name": "Dumbell Hammer Curl", "sets": 4, "reps": 8},
                             {
@@ -158,7 +158,7 @@ men_pro_workout = {
                 "week_of_plan": 2,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -191,7 +191,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "3 Count Pause Bench Press",
@@ -235,7 +235,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -278,7 +278,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Dumbell Side Lateral Raise",
@@ -320,7 +320,7 @@ men_pro_workout = {
                 "week_of_plan": 3,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -338,11 +338,16 @@ men_pro_workout = {
                                 "reps": 6,
                             },
                             {
-                                "name": "Leg Extension + Leg Curl",
+                                "name": "Leg Extension",
                                 "sets": 4,
                                 "reps": 12,
-                                "instructions": "Superset",
-                                "notes": "each exercise",
+                                "superset_number": 1,
+                            },
+                            {
+                                "name": "Leg Curl",
+                                "sets": 4,
+                                "reps": 12,
+                                "superset_number": 1,
                             },
                             {
                                 "name": "Calf Raise",
@@ -354,7 +359,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "Classic Bench Press",
@@ -389,7 +394,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -398,7 +403,7 @@ men_pro_workout = {
                                 "instructions": "from plate",
                             },
                             {
-                                "name": "Barbell Bend Over Row",
+                                "name": "Barbell Bent Over Row",
                                 "sets": 4,
                                 "reps": 8,
                             },
@@ -434,7 +439,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Barbell Overhead Press",
@@ -467,7 +472,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "SAT",
+                        "day_of_week": "SAT",
                         "exercises": [
                             {
                                 "name": "Rope Hammer Curl",
@@ -523,7 +528,7 @@ men_pro_workout = {
                 "week_of_plan": 4,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -563,7 +568,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "Classic Bench Press",
@@ -600,7 +605,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -642,7 +647,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Rear Delt Swing",
@@ -679,7 +684,7 @@ men_pro_workout = {
                 "week_of_plan": 5,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -731,7 +736,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "Bench Press",
@@ -771,7 +776,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -816,7 +821,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Barbell Overhead Press",
@@ -849,7 +854,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "SAT",
+                        "day_of_week": "SAT",
                         "exercises": [
                             {
                                 "name": "Dumbell Curl",
@@ -908,7 +913,7 @@ men_pro_workout = {
                 "week_of_plan": 6,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -916,7 +921,7 @@ men_pro_workout = {
                                 "reps": 3,
                             },
                             {
-                                "name": "",
+                                "name": "Glute Bridge",
                                 "sets": 4,
                                 "reps": 8,
                             },
@@ -948,7 +953,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "Bench Press",
@@ -998,7 +1003,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -1045,7 +1050,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Rear Delt Swing",
@@ -1081,7 +1086,7 @@ men_pro_workout = {
                 "week_of_plan": 7,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -1122,7 +1127,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "TUE",
+                        "day_of_week": "TUE",
                         "exercises": [
                             {
                                 "name": "Bench Press",
@@ -1161,7 +1166,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "THU",
+                        "day_of_week": "THU",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -1204,7 +1209,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Dumbell Side Lateral Raise",
@@ -1244,7 +1249,7 @@ men_pro_workout = {
                 "week_of_plan": 8,
                 "days": [
                     {
-                        "day": "MON",
+                        "day_of_week": "MON",
                         "exercises": [
                             {
                                 "name": "Squat",
@@ -1292,7 +1297,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "WED",
+                        "day_of_week": "WED",
                         "exercises": [
                             {
                                 "name": "Bench Press",
@@ -1326,7 +1331,7 @@ men_pro_workout = {
                         ],
                     },
                     {
-                        "day": "FRI",
+                        "day_of_week": "FRI",
                         "exercises": [
                             {
                                 "name": "Deadlift",
@@ -1360,7 +1365,7 @@ men_pro_workout = {
                             {
                                 "name": "Triceps Rope Pulldown",
                                 "sets": 3,
-                                "reps": 12,
+                                "reps": 10,
                             },
                             {
                                 "name": "Push Up",
