@@ -1,6 +1,14 @@
-export function Link(props: { children: string; link: string }) {
+export function Link(props: {
+  children: string;
+  link: string;
+  tailwindTextColor: string;
+  tailwindTextSize: string;
+}) {
   return (
-    <a className="text-black text-xs opacity-[50%]" href={props.link}>
+    <a
+      className={`${props.tailwindTextColor} ${props.tailwindTextSize}`}
+      href={props.link}
+    >
       {props.children}
     </a>
   );

@@ -7,8 +7,8 @@ import NinjaIcon from "~/views/footer/ninjaIcon";
 
 export default function Landing() {
   return (
-    <>
-      <div className="flex flex-row flex-wrap justify-between mt-5 pl-[40px] pr-[40px]">
+    <div className="flex flex-col">
+      <div className="flex flex-wrap justify-between mt-5 pl-[40px] pr-[40px]">
         <SubscriptionCard
           discount={null}
           price={19.99}
@@ -55,9 +55,11 @@ export default function Landing() {
           ]}
         />
       </div>
+
       <div className="text-center">
         <h2>FAQ's</h2>
       </div>
+
       <div className="flex flex-col md:flex-row flex-wrap pl-[40px] pr-[40px]">
         <CollapseContainer title="Question One" content="Answer One" id={1} />
         <CollapseContainer title="Question Two" content="Answer Two" id={2} />
@@ -104,6 +106,6 @@ export default function Landing() {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
