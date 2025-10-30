@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
 import type { Route } from "./+types/auth/login";
+
+import { useState, useContext } from "react";
 
 import { Input } from "~/views/components/login/input";
 import { Button } from "~/views/components/login/button";
@@ -63,11 +64,15 @@ export default function Login() {
               changeHandler={emailHandler}
               placeholder="Your Email"
               type="email"
+              name="email"
+              id="email"
             />
             <Input
               changeHandler={passwordHandler}
               placeholder="Your Password"
               type="password"
+              name="password"
+              id="password"
             />
             <div className="flex m-2 flex-row-reverse w-full">
               <Link

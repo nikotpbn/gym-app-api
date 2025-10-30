@@ -34,6 +34,9 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     last_login = models.DateTimeField(auto_now_add=True)
+    stripe_customer_id = models.CharField(
+        max_length=256, null=True, blank=True, default=None
+    )
 
     objects = UserManager()
 
