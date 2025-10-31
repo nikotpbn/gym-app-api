@@ -11,6 +11,9 @@ services:
       - DJANGO_SETTINGS_MODULE=backend.settings
     secrets:
       - stripe_api_key
+      - one_month_subscription_price_id
+      - six_month_subscription_price_id
+      - twelve_month_subscription_price_id
 
   frontend:
     build:
@@ -24,3 +27,9 @@ services:
 secrets:
   stripe_api_key:
     file: ./secrets/stripe_api_key.txt
+  one_month_subscription_price_id:
+    file: ./secrets/one_month_price_id.txt
+  six_month_subscription_price_id:
+    file: ./secrets/six_month_price_id.txt
+  twelve_month_subscription_price_id:
+  file: ./secrets/twelve_month_price_id.txt

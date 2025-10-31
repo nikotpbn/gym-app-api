@@ -14,50 +14,61 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
   let navigate = useNavigate();
-  let timer: ReturnType<typeof setTimeout>;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setpasswordConfirm] = useState("");
+  const [password2, setPassword2] = useState("");
   const [promotionCode, setpromotionCode] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   function emailHandler(value: string) {
     setEmail(value);
   }
-
   function passwordHandler(value: string) {
     setPassword(value);
   }
-
   function passwordConfirmHandler(value: string) {
-    setpasswordConfirm(value);
+    setPassword2(value);
+  }
+  function firstNameHandler(value: string) {
+    setFirstName(value);
+  }
+  function lastNameHandler(value: string) {
+    setLastName(value);
   }
 
   async function registerHandler() {
-    if (password != passwordConfirm) {
+    if (password != password2) {
       const passwordInputs = document.querySelectorAll(".password-validator");
       passwordInputs.forEach((input) => {
         input.classList.add("border-red-500");
       });
+    } else {
+      try {
+        let full_name = `${firstName} ${lastName}`;
+        const response = await fetch("http://localhost:8000/api/v1/register/", {
+          method: "POST",
+          body: JSON.stringify({ full_name, email, password, password2 }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          console.log(data.message);
+          // data contains a success message, maybe use on a toast
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    // try {
-    //   const response = await fetch("http://localhost:8000/api/v1/token/", {
-    //     method: "POST",
-    //     body: JSON.stringify({ email, password }),
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-
-    //   if (response.status == 200) {
-    //     const data = await response.json();
-    //   }
-    // } catch (error) {}
   }
 
   return (
     <div className="text-black flex flex-col w-full md:flex-row">
-      <div className="flex w-[100%] md:w-[60%] h-full bg-yellow-500 items-center justify-center p-15">
-        <div className="flex flex-col align-center">
+      <div className="flex w-[100%] md:w-[60%] h-full bg-yellow-500 items-center justify-center">
+        <div className="flex flex-col align-center w-full p-12">
           <p>logo sgv</p>
 
           <div className="flex flex-row flex-no-wrap justify-between text-xs">
@@ -96,6 +107,25 @@ export default function Login() {
           </div>
 
           <form>
+            <div className="flex gap-1">
+              <Input
+                changeHandler={firstNameHandler}
+                extraClasses={"w-[50%]"}
+                placeholder="First Name"
+                type="text"
+                name="first_name"
+                id="first_name"
+              />
+              <Input
+                changeHandler={lastNameHandler}
+                extraClasses={"w-[50%]"}
+                placeholder="Last Name"
+                type="text"
+                name="last_name"
+                id="last_name"
+              />
+            </div>
+
             <Input
               changeHandler={emailHandler}
               extraClasses={"email-validator"}
@@ -104,22 +134,25 @@ export default function Login() {
               name="email"
               id="email"
             />
-            <Input
-              changeHandler={passwordHandler}
-              extraClasses={"password-validator"}
-              placeholder="Your Password"
-              type="password"
-              name="password"
-              id="passwword"
-            />
-            <Input
-              changeHandler={passwordConfirmHandler}
-              extraClasses={"password-validator"}
-              placeholder="Password Confirmation"
-              type="password"
-              name="password2"
-              id="passwor-confirm"
-            />
+
+            <div className="flex gap-1">
+              <Input
+                changeHandler={passwordHandler}
+                extraClasses={"password-validator w-[50%]"}
+                placeholder="Your Password"
+                type="password"
+                name="password"
+                id="passwword"
+              />
+              <Input
+                changeHandler={passwordConfirmHandler}
+                extraClasses={"password-validator w-[50%]"}
+                placeholder="Password Confirmation"
+                type="password"
+                name="password2"
+                id="passwor-confirm"
+              />
+            </div>
           </form>
 
           <div className="flex flex-no-wrap gap-2 mt-4 mb-4">

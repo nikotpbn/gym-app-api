@@ -16,7 +16,6 @@ User = get_user_model()
 
 @api_view(["POST"])
 def register(request):
-
     full_name = request.data.get("full_name", None)
     email = request.data.get("email", None)
     password = request.data.get("password", None)
@@ -29,10 +28,13 @@ def register(request):
                 name=full_name,
                 email=email,
             )
-            print(customer)
             user.stripe_customer_id = customer.id
             user.save()
-            return Response({"message": "user created"}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"message": "Customer User created successfully"},
+                status=status.HTTP_201_CREATED,
+            )
+
         except Exception as e:
             return Response(
                 {"message": "Could not proceed with user creation."},
